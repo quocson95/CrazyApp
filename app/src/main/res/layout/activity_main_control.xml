@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.quocs.crazyapp.MainControl">
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="STOP" />
+
+    <Button
+        android:id="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_stop"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="27dp"
+        android:text="LEFT" />
+
+    <Button
+        android:id="@+id/btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/btn_stop"
+        android:layout_marginEnd="18dp"
+        android:text="RIGHT" />
+
+    <Button
+        android:id="@+id/btn_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_stop"
+        android:layout_alignEnd="@+id/btn_stop"
+        android:layout_marginBottom="38dp"
+        android:text="UP" />
+
+    <Button
+        android:id="@+id/btn_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="DOWN"
+        android:layout_below="@+id/btn_stop"
+        android:layout_alignStart="@+id/btn_stop" />
+
+    <ToggleButton
+        android:id="@+id/tgg_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btn_down"
+        android:layout_below="@+id/btn_down"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/icovoice"
+        android:text="VOICE"
+        android:textOff=" "
+        android:textOn=" " />
+
+    <RadioButton
+        android:id="@+id/radio_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tgg_voice"
+        android:layout_centerHorizontal="true"
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/txt_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="400dp"
+        android:layout_marginRight="200dp"
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/txt_voice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="400dp"
+        android:layout_marginLeft="200dp"
+        android:text=" " />
+
+</RelativeLayout>
