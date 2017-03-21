@@ -19,6 +19,7 @@ public class MainControl extends Activity {
     private int DOWN = 2;
     private int LEFT = 3;
     private int RIGHT = 4;
+    private int STOP_TURN = 5;
     private int state = 0;
     private VoiceToText voiceToText;
     private String Log_Tag = "Main_Control";
@@ -95,8 +96,15 @@ public class MainControl extends Activity {
            public boolean onTouch(View v, MotionEvent event) {
                if(event.getAction() == MotionEvent.ACTION_DOWN) {
                    Log.i(Log_Tag,"press"+ type );
+                   bluetoothService.sendMsg(type);
                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.i(Log_Tag,"release" +type);
+                   if (type == UP || type == DOWN){
+                       bluetoothService.sendMsg(STOP);
+                       Log.i(Log_Tag,"release" +STOP);
+                   }
+                   else bluetoothService.sendMsg(STOP_TURN);
+                   Log.i(Log_Tag,"release" +STOP_TURN);
+
                }
                return false;
            }
