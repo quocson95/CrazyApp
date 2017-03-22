@@ -73,6 +73,15 @@ public class MainControl extends Activity {
         };
         creatBluetooth();
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.i(Log_Tag,"on Resume");
+        if (!bluetoothService.isConnected()) {
+            bluetoothService.creatConnectBluetooth(MainControl.this);
+            txt_control.append("Trying connected");
+        }
+    }
     private void initUI() {
         //Init Button
         btn_stop = (Button) findViewById(R.id.btn_stop);
@@ -116,7 +125,7 @@ public class MainControl extends Activity {
             @Override
             public void run() {
                 Message msg = handler.obtainMessage();
-                if (bluetoothService.creatConnectBluetooth()) {
+                if (bluetoothService.creatConnectBluetooth(MainControl.this)) {
                     msg.obj = "Connect success";
                     Log.i(Log_Tag,"Connect sucess");
                 }

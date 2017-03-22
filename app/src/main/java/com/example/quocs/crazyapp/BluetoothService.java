@@ -4,6 +4,7 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
@@ -34,10 +35,13 @@ public class BluetoothService {
     public void setMacAddrBL(String macAddr){
         this.MAC_ADDR_BL = macAddr;
     }
-    public boolean creatConnectBluetooth(){
+    public boolean creatConnectBluetooth(Context context){
         BluetoothAdapter bluetoothAdapter;
         BluetoothDevice device;
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()){
+            //TODO
+        }
         device = bluetoothAdapter.getRemoteDevice(this.MAC_ADDR_BL);
         try {
             //socket = device.createInsecureRfcommSocketToServiceRecord(MY_UUID_INSECURE);
@@ -68,5 +72,9 @@ public class BluetoothService {
             return false;
         }
         return true;
+    }
+    public boolean isConnected(){
+        if (socket != null)return socket.isConnected();
+        else return true;
     }
 }
