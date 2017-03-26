@@ -8,18 +8,13 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class MainControl extends Activity {
-    private int STOP = 0;
-    private int UP = 1;
-    private int DOWN = 2;
-    private int LEFT = 3;
-    private int RIGHT = 4;
-    private int STOP_TURN = 5;
     private int state = 0;
     private VoiceToText voiceToText;
     private String Log_Tag = "Main_Control";
@@ -30,17 +25,26 @@ public class MainControl extends Activity {
     private BluetoothService bluetoothService;
     private Handler handler;
 
+    private  DefineCode defineCode = new DefineCode();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_control);
         initUI();
+        //setTouchButton(btn_stop,STOP);
+        setTouchButton(btn_up,defineCode.CTRL_GO_UP);
+        setTouchButton(btn_down,defineCode.CTRL_GO_DOWN);
+        float deg = btn_down.getRotation() + 180F;
+        btn_down.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
 
-        setTouchButton(btn_stop,STOP);
-        setTouchButton(btn_up,UP);
-        setTouchButton(btn_down,DOWN);
-        setTouchButton(btn_left,LEFT);
-        setTouchButton(btn_right,RIGHT);
+        setTouchButton(btn_left,defineCode.CTRL_GO_LEFT);
+        deg = btn_left.getRotation() + 270F;
+        btn_left.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
+
+        setTouchButton(btn_right,defineCode.CTRL_GO_RIGHT);
+        deg = btn_right.getRotation() + 90F;
+        btn_right.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
+
         bluetoothService = new BluetoothService();
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("BluetoothPackage");
@@ -53,7 +57,7 @@ public class MainControl extends Activity {
 //                if (radio_voice.isChecked()== true) radio_voice.setChecked(false);
 //                else radio_voice.setChecked(true);
                 state = ((state + 1) % 2 );
-                radio_voice.setChecked(state==1?true:false);
+                radio_voice.setChecked(state==1);
                 if (radio_voice.isChecked()) {
                     voiceToText.startListenVoice();
                 }
@@ -84,7 +88,6 @@ public class MainControl extends Activity {
     }
     private void initUI() {
         //Init Button
-        btn_stop = (Button) findViewById(R.id.btn_stop);
         btn_up = (Button) findViewById(R.id.btn_up);
         btn_down = (Button) findViewById(R.id.btn_down);
         btn_left = (Button) findViewById(R.id.btn_left);
@@ -107,12 +110,22 @@ public class MainControl extends Activity {
                    Log.i(Log_Tag,"press"+ type );
                    bluetoothService.sendMsg(type);
                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                   if (type == UP || type == DOWN){
-                       bluetoothService.sendMsg(STOP);
-                       Log.i(Log_Tag,"release" +STOP);
+                   if (type == defineCode.CTRL_GO_UP){
+                       bluetoothService.sendMsg(defineCode.CTRL_STOP_UP);
+                       Log.i(Log_Tag,"release" +defineCode.CTRL_STOP_UP);
                    }
-                   else bluetoothService.sendMsg(STOP_TURN);
-                   Log.i(Log_Tag,"release" +STOP_TURN);
+                   else if (type == defineCode.CTRL_GO_DOWN){
+                       bluetoothService.sendMsg(defineCode.CTRL_STOP_DOWN);
+                       Log.i(Log_Tag,"release" +defineCode.CTRL_STOP_DOWN);
+                   }
+                   else if (type == defineCode.CTRL_GO_LEFT){
+                       bluetoothService.sendMsg(defineCode.CTRL_STOP_LEFT);
+                       Log.i(Log_Tag,"release" +defineCode.CTRL_STOP_LEFT);
+                   }else if (type == defineCode.CTRL_GO_RIGHT){
+                       bluetoothService.sendMsg(defineCode.CTRL_STOP_RIGHT);
+                       Log.i(Log_Tag,"release" +defineCode.CTRL_STOP_RIGHT);
+                   }
+
 
                }
                return false;
